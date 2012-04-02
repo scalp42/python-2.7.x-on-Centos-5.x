@@ -1,0 +1,6 @@
+Usage :
+
+#> ./install_python27.sh 
+
+
+It will install in /opt/
