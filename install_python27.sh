@@ -4,7 +4,7 @@
 # scalisi.a@gmail.com
 #
 #
-# Syntax: # ./install_python27.sh
+# Syntax: #> ./install_python27.sh
 #
 
 # int main()
