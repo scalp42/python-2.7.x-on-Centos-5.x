@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Update python to 2.7.2 on CentOS 5.7
-# anthony.scalisi@blackboard.com
+# scalisi.a@gmail.com
 #
 #
 # Syntax: # ./install_python27.sh
