@@ -10,7 +10,7 @@ This script has only been tested on CentOS 5.6, 5.7 and 5.8.
 
 You must be root or use sudo.
 
-#> ./install_python27.sh
+	#> ./install_python27.sh
 
 # TODO:
 
