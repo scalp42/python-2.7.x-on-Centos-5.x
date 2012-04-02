@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Update python to 2.7.2 on CentOS 5.7
+# Update python to 2.7.2 on CentOS 5.6, 5.7 and 5.8
 # scalisi.a@gmail.com
 #
 #
