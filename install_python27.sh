@@ -38,7 +38,7 @@ install() {
 	echo "Downloading sources and installing them..."
 	echo "----------------------------------------------------"
 
-	cd /tmp
+	cd /tmp &&
 	$wget http://www.sqlite.org/sqlite-autoconf-3071000.tar.gz
 	tar xfz sqlite-autoconf-3071000.tar.gz
 	cd sqlite-autoconf-3071000/
@@ -46,7 +46,7 @@ install() {
 	make
 	make install
 
-	cd /tmp
+	cd /tmp &&
 	$wget http://www.python.org/ftp/python/2.7.2/Python-2.7.2.tgz
 	tar xzf Python-2.7.2.tgz
 	cd Python-2.7.2
@@ -70,7 +70,7 @@ extra() {
 	echo "----------------------------------------------------"
 	echo ""
 
-	cd /tmp
+	cd /tmp &&
 	$wget http://pypi.python.org/packages/2.7/s/setuptools/setuptools-0.6c11-py2.7.egg
 	sh setuptools-0.6c11-py2.7.egg --prefix=/opt/python2.7.2
 
