@@ -28,7 +28,7 @@ prepare() {
   	echo "#> Help me, Obi-Wan Kenobi. You're my only hope."
 	echo ""
   	echo "----------------------------------------------------"
-  	$yum gcc.x86_64 gdbm-devel.x86_64 readline-devel.x86_64 ncurses-devel.x86_64 zlib-devel.x86_64 bzip2-devel.x86_64 unzip.x86_64 htop.x86_64 iotop sqlite-devel.x86_64 db4-devel.x86_64 openssl-devel.x86_64 tk-devel.x86_64 bluez-libs-devel.x86_64 make.x86_64 python-devel.x86_64
+  	$yum gcc.x86_64 gdbm-devel.x86_64 readline-devel.x86_64 ncurses-devel.x86_64 zlib-devel.x86_64 bzip2-devel.x86_64 unzip.x86_64 htop.x86_64 iotop sqlite-devel.x86_64 db4-devel.x86_64 openssl-devel.x86_64 tk-devel.x86_64 bluez-libs-devel.x86_64 make.x86_64 python-devel.x86_64 wget.x86-64
 }
 
 # Function: download sources
