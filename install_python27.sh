@@ -18,25 +18,27 @@ fi
 yum="yum -y install"
 wget="wget --no-check-certificate"
 
+clear ;
+
 # Function: setup build tools
 prepare() {
 
+	echo ""
 	echo "----------------------------------------------------"
 	echo "Installing required packages..."
-	echo ""
-  	echo "If things go wrong, feel free to ask Obiwan, using the following syntax :"
-  	echo "#> Help me, Obi-Wan Kenobi. You're my only hope."
-	echo ""
   	echo "----------------------------------------------------"
+	echo ""
   	$yum gcc.x86_64 gdbm-devel.x86_64 readline-devel.x86_64 ncurses-devel.x86_64 zlib-devel.x86_64 bzip2-devel.x86_64 unzip.x86_64 htop.x86_64 iotop sqlite-devel.x86_64 db4-devel.x86_64 openssl-devel.x86_64 tk-devel.x86_64 bluez-libs-devel.x86_64 make.x86_64 python-devel.x86_64 wget.x86-64
 }
 
 # Function: download sources
 install() {
 
+	echo ""
 	echo "----------------------------------------------------"
 	echo "Downloading sources and installing them..."
 	echo "----------------------------------------------------"
+	echo ""
 
 	cd /tmp &&
 	$wget http://www.sqlite.org/sqlite-autoconf-3071000.tar.gz
@@ -63,10 +65,10 @@ install() {
 }
 
 extra() {
-	
+
 	echo ""
 	echo "----------------------------------------------------"
-	echo "The more, the better... Installing easy_install, pip, virtualenv and fabric (because capistrano is in ruby)"
+	echo "The more, the better... Installing Fabric and Virtualenv"
 	echo "----------------------------------------------------"
 	echo ""
 
@@ -77,10 +79,10 @@ extra() {
 	/opt/python2.7.2/bin/easy_install pip
 	ln -sf /opt/python2.7.2/bin/pip /usr/bin/pip
 
-	pip install virtualenv
+	/opt/python2.7.2/bin/easy_install virtualenv
 	ln -sf /opt/python2.7.2/bin/virtualenv /usr/bin/virtualenv
 
-	pip install fabric
+	/opt/python2.7.2/bin/easy_install fabric
 	ln -sf /opt/python2.7.2/bin/fab /usr/bin/fab
 
 }
@@ -108,7 +110,8 @@ linking() {
 	echo "----------------------------------------------------"
 	echo "Let's create some links for empty bash profile users out there."
 	echo "----------------------------------------------------"
-		
+	echo ""
+
 	ln -sf /opt/python2.7.2/bin/pydoc /usr/bin/pydoc ;
 	ln -sf /opt/python2.7.2/bin/easy_install /usr/bin/easy_install
 }
@@ -121,5 +124,5 @@ cleaning
 linking
 
 echo ""
-echo "Done !""
+echo "Done !"
 echo ""
