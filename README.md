@@ -1,10 +1,10 @@
 # DESCRIPTION:
 
-Upgrade python (http://www.python.org/) to latest stable version (as of 04/02/12) without breaking yum on CentOS 5.x.
+Upgrade python (http://www.python.org/) to latest stable version (as of 07/04/12) without breaking yum on CentOS 5.x.
 
 # REQUIREMENTS:
 
-This script has only been tested on CentOS 5.6, 5.7 and 5.8.
+This script has only been tested on CentOS 5.6, 5.7 and 5.8. Please do NOT run it on CentOS 6 (not needed).
 
 # USAGE:
 
