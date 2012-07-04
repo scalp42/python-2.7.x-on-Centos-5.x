@@ -114,12 +114,12 @@ cleaning() {
 linking() {
 
 	echo ""
-	echo "----------------------------------------------------"
+	echo "------------------------------------------------------------------------"
 	echo "Exporting python2.7.3 path to access binaries in /opt/python2.7.3/bin"
-	echo "----------------------------------------------------"
+	echo "------------------------------------------------------------------------"
 	echo ""
 
-	echo "PATH=$PATH:/opt/python.2.7.3/bin" >> ~/.bash_profile
+	echo "PATH=$PATH:/opt/python2.7.3/bin" >> ~/.bash_profile
 	echo "export PATH" >> ~/.bash_profile
 }
 
