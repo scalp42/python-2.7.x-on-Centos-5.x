@@ -88,10 +88,10 @@ extra() {
 	/opt/python2.7.3/bin/easy_install pip
 #	ln -sf /opt/python2.7.3/bin/pip /usr/bin/pip
 
-	/opt/python2.7.3/bin/pip virtualenv
+	/opt/python2.7.3/bin/pip install virtualenv
 #	ln -sf /opt/python2.7.3/bin/virtualenv /usr/bin/virtualenv
 
-	/opt/python2.7.3/bin/pip fabric
+	/opt/python2.7.3/bin/pip install fabric
 #	ln -sf /opt/python2.7.3/bin/fab /usr/bin/fab
 
 }
@@ -132,5 +132,5 @@ echo ""
 echo "Done !"
 echo ""
 echo "Please report any issues on Github, https://github.com/scalp42/python-2.7.x-on-Centos-5.x/issues"
-echo "Any feedback welcome !"
+echo "Any feedback welcomed !"
 echo ""
