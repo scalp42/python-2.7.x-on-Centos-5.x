@@ -81,7 +81,8 @@ extra() {
 	cd /tmp &&
 	$wget http://pypi.python.org/packages/2.7/s/setuptools/setuptools-0.6c11-py2.7.egg &&
 	cd /opt/python2.7.3/lib/python2.7/config &&
-	ln -s ../../libpython2.7.so . &&
+	ln -s ../../libpython2.7.so . 
+	ln -sf /opt/python2.7.3/lib/libpython2.7.so /usr/lib/libpython2.7.so ;
 	/sbin/ldconfig &&
 	sh /tmp/setuptools-0.6c11-py2.7.egg --prefix=/opt/python2.7.3
 
