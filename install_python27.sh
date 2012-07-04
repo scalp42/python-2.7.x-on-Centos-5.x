@@ -88,10 +88,10 @@ extra() {
 	/opt/python2.7.3/bin/easy_install pip
 #	ln -sf /opt/python2.7.3/bin/pip /usr/bin/pip
 
-	/opt/python2.7.2/bin/pip virtualenv
+	/opt/python2.7.3/bin/pip virtualenv
 #	ln -sf /opt/python2.7.3/bin/virtualenv /usr/bin/virtualenv
 
-	/opt/python2.7.2/bin/pip fabric
+	/opt/python2.7.3/bin/pip fabric
 #	ln -sf /opt/python2.7.3/bin/fab /usr/bin/fab
 
 }
