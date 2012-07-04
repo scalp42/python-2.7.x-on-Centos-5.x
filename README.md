@@ -1,7 +1,9 @@
 # DESCRIPTION:
 
 Upgrade python (http://www.python.org/) to latest stable version (as of 07/04/12) without breaking yum on CentOS 5.x.
-It also install pip, virtualenv and fabric.
+
+It also installs pip, virtualenv and fabric.
+
 
 # REQUIREMENTS:
 
