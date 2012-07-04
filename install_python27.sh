@@ -59,8 +59,8 @@ install() {
 	make
 	make install
 
-	touch /etc/ld.so.conf.d/opt-python2.7.2.conf
-	echo "/opt/python2.7.2/lib/" >> /etc/ld.so.conf.d/opt-python2.7.2.conf
+	touch /etc/ld.so.conf.d/opt-python2.7.3.conf
+	echo "/opt/python2.7.3/lib/" >> /etc/ld.so.conf.d/opt-python2.7.3.conf
 	echo "/usr/local/lib/" >> /etc/ld.so.conf.d/local-lib.conf
 	/sbin/ldconfig &&
 
