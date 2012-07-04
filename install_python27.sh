@@ -119,6 +119,7 @@ linking() {
 	echo ""
 
 	echo "PATH=$PATH:/opt/python.2.7.3/bin" >> ~/.bash_profile
+	echo "export PATH" >> ~/.bash_profile
 }
 
 
