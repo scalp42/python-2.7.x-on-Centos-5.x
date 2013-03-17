@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Upgrade python to 2.7.3 on CentOS 5.6, 5.7 and 5.8
 # scalisi.a@gmail.com
@@ -8,132 +8,163 @@
 #
 
 # int main()
+
+## This variable enable the use of www.askcerebro.com
+## Please visit for more information: https://github.com/scalp42/askcerebro
+## Set it to "false" to deactivate.
+usecerebro="true"
+
+## This variable specify the path for the new binaries
+dest="/opt"
+
+## This variable specify if extras need to be installed
+install_extras="true"
+
+## The following fallback variables are only used if cerebro is disabled and/or unreachable
+fallback_vers="2.7.3"
+fallback_url="http://www.python.org/ftp/python/$fallback_vers/Python-$fallback_vers.tgz"
+fallback_setuptools_vers="0.6c11"
+fallback_setuptools_url="https://pypi.python.org/packages/2.7/s/setuptools/setuptools-fallback_setuptools_vers-py2.7.egg#md5=fe1f997bc722265116870bc7919059ea"
+
+
 if [ "$(id -u)" != "0" ]; then
         echo "Gotta be root to run this script."
         echo "Syntax: sudo $0"
         exit 1
 fi
 
-# Aliases make me happy
-yum="yum -y install"
+yum="yum -y -q install"
 wget="wget --no-check-certificate"
-arch="i386"
-dest="/usr/local"
+arch=`uname -i`
+tmpdir=`mktemp -d`
+trap 'printf "\n\nLooks like the script exited or got interrupted, cleaning up.\n\n"; python_clean' INT TERM EXIT
+
+sqliteautoconf="sqlite-autoconf-3071502"
+sqlitesrc="http://www.sqlite.org/$sqliteautoconf.tar.gz"
 
 clear ;
 
-# Function: setup build tools
-prepare() {
-
-	echo ""
-	echo "----------------------------------------------------"
-	echo "Installing required packages..."
-  	echo "----------------------------------------------------"
-	echo ""
-  	$yum gcc.${arch} gdbm-devel.${arch} readline-devel.${arch} ncurses-devel.${arch} zlib-devel.${arch} bzip2-devel.${arch}
-	$yum sqlite-devel.${arch} db4-devel.${arch} openssl-devel.${arch} tk-devel.${arch} bluez-libs-devel.${arch} make.${arch} python-devel.${arch}
-	$yum wget unzip crypto-utils.${arch} m2crypto.${arch}
-	yum -y groupinstall 'Development Tools'
+python_info() {
+  if [ "$usecerebro" == "true" ]; then
+    STATUS_CEREBRO=`curl -m 5 --output /dev/null --silent --head --write-out '%{http_code}\n' www.askcerebro.com/python/python2/version`
+    if [ "$STATUS_CEREBRO" == "200" ]; then
+      python2vers=`curl -m 5 --silent www.askcerebro.com/python/python2/version`
+      python2url=`curl -m 5 --silent www.askcerebro.com/python/python2/url`
+      setuptoolsvers=`curl -m 5 --silent www.askcerebro.com/setuptools/2.7/version`
+      setuptoolsurl=`curl -m 5 --silent www.askcerebro.com/setuptools/2.7/url`
+    else
+      python2vers=fallback_vers
+      python2url=fallback_url
+      setuptoolsvers=fallback_setuptools_vers
+      setuptoolsurl=fallback_setuptools_url
+    fi
+  else
+    python2vers=fallback_vers
+    python2url=fallback_url
+    setuptoolsvers=fallback_setuptools_vers
+    setuptoolsurl=fallback_setuptools_url
+  fi
 }
 
-# Function: download sources
-install() {
+python_prepare() {
 
-	echo ""
-	echo "----------------------------------------------------"
-	echo "Downloading sources and compiling..."
-	echo "----------------------------------------------------"
-	echo ""
-
-	#cd /tmp &&
-	$wget http://www.sqlite.org/sqlite-autoconf-3071300.tar.gz &&
-	tar xfz sqlite-autoconf-3071300.tar.gz &&
-	cd sqlite-autoconf-3071300/ &&
-	./configure
-	make
-	make install
-
-	#cd /tmp &&
-	$wget http://www.python.org/ftp/python/2.7.3/Python-2.7.3.tgz &&
-	tar xzf Python-2.7.3.tgz &&
-	cd Python-2.7.3 &&
-	./configure --prefix=${dest}/python2.7.3 --with-threads --enable-shared
-	make
-	make install
-
-	touch /etc/ld.so.conf.d/opt-python2.7.3.conf
-	echo "${dest}/python2.7.3/lib/" >> /etc/ld.so.conf.d/opt-python2.7.3.conf
-	echo "/usr/local/lib/" >> /etc/ld.so.conf.d/local-lib.conf
-	/sbin/ldconfig &&
-
-	ln -sf ${dest}/python2.7.3/bin/python2.7 /usr/bin/python2.7 &&
-    ln -sf ${dest}/python2.7.3/bin/python2.7-config /usr/bin/python2.7-config
+  echo ""
+  echo "----------------------------------------------------"
+  echo "Installing required packages..."
+  echo "----------------------------------------------------"
+  echo ""
+  yum -q check-update ;
+  $yum gcc.${arch} gdbm-devel.${arch} readline-devel.${arch} ncurses-devel.${arch} zlib-devel.${arch} bzip2-devel.${arch}
+  $yum sqlite-devel.${arch} db4-devel.${arch} openssl-devel.${arch} tk-devel.${arch} bluez-libs-devel.${arch} make.${arch} python-devel.${arch}
+  $yum wget unzip crypto-utils.${arch} m2crypto.${arch}
+  yum -y -q groupinstall 'Development Tools'
+  #mkdir $tmpdir
 }
 
-extra() {
+python_install() {
 
-	echo ""
-	echo "---------------------------------------------------------------"
-	echo "The more, the better... Installing Pip, Fabric and Virtualenv"
-	echo "---------------------------------------------------------------"
-	echo ""
+  echo ""
+  echo "----------------------------------------------------"
+  echo "Downloading sources and compiling..."
+  echo "----------------------------------------------------"
+  echo ""
 
-    export PATH=$PATH:/usr/bin:${dest}/python2.7.3/bin
+  cd $tmpdir &&
+  $wget $sqlitesrc &&
+  tar xfz $sqliteautoconf.tar.gz &&
+  cd $sqliteautoconf &&
+  ./configure
+  make
+  make install
 
-	cd /tmp &&
-	$wget http://pypi.python.org/packages/2.7/s/setuptools/setuptools-0.6c11-py2.7.egg &&
-	cd ${dest}/python2.7.3/lib/python2.7/config &&
-	ln -s ../../libpython2.7.so . 
-	ln -sf ${dest}/python2.7.3/lib/libpython2.7.so /usr/lib/libpython2.7.so ;
-	/sbin/ldconfig &&
-	sh /tmp/setuptools-0.6c11-py2.7.egg --prefix=${dest}/python2.7.3
+  cd $tmpdir &&
+  $wget $python2url &&
+  tar xzf Python-$python2vers.tgz &&
+  cd Python-$python2vers &&
+  ./configure --prefix=${dest}/python$python2vers --with-threads --enable-shared
+  make
+  make install
 
-	${dest}/python2.7.3/bin/easy_install pip
-	ln -sf ${dest}/python2.7.3/bin/pip ${dest}/bin/pip
+  if [ -f /etc/ld.so.conf.d/opt-python$python2vers.conf ]; then
+    rm -f /etc/ld.so.conf.d/opt-python$python2vers.conf
+  fi
+  touch /etc/ld.so.conf.d/opt-python$python2vers.conf
+  echo "${dest}/python$python2vers/lib" >> /etc/ld.so.conf.d/opt-python$python2vers.conf
+  if [ -f /etc/ld.so.conf.d/local-lib.conf ]; then
+    if grep -qio "${dest}/lib" /etc/ld.so.conf.d/local-lib.conf; then
+      true
+    else
+      echo "${dest}/lib" >> /etc/ld.so.conf.d/local-lib.conf
+    fi
+  else
+    echo "${dest}/lib" >> /etc/ld.so.conf.d/local-lib.conf
+  fi
+  /sbin/ldconfig &&
 
-	${dest}/python2.7.3/bin/pip install virtualenv
-	ln -sf ${dest}/python2.7.3/bin/virtualenv ${dest}/bin/virtualenv
-
-	${dest}/python2.7.3/bin/pip install fabric
-	ln -sf ${dest}/python2.7.3/bin/fab ${dest}/bin/fab
-
+  ln -sf ${dest}/python$python2vers/bin/python2.7 /usr/bin/python2.7 &&
+  ln -sf ${dest}/python$python2vers/bin/python2.7-config /usr/bin/python2.7-config
 }
 
-cleaning() {
+python_extra() {
 
-	echo "----------------------------------------------------"
-	echo "French maid time... let's clean everything."
-	echo "----------------------------------------------------"
+  echo ""
+  echo "---------------------------------------------------------------"
+  echo "Installing Pip, Fabric and Virtualenv"
+  echo "---------------------------------------------------------------"
+  echo ""
 
-	rm -fr /tmp/Python-2.7.3.tgz ;
-	rm -fr /tmp/Python-2.7.3 ;
-	rm -fr /tmp/setuptools-0.6c11-py2.7.egg ;
-	rm -fr /tmp/sqlite-autoconf-* ;
-	rm -fr /tmp/sqlite-autoconf-* ;
+  export PATH=$PATH:/usr/bin:${dest}/python$python2vers/bin
 
+  cd $tmpdir &&
+  $wget $setuptoolsurl &&
+  cd ${dest}/python$python2vers/lib/python2.7/config &&
+  ln -s ../../libpython2.7.so . 
+  ln -sf ${dest}/python$python2vers/lib/libpython2.7.so /usr/lib/libpython2.7.so ;
+  /sbin/ldconfig &&
+  sh $tmpdir/setuptools-$setuptoolsvers-py2.7.egg --prefix=${dest}/python$python2vers
+
+  ${dest}/python$python2vers/bin/easy_install pip
+  ln -sf ${dest}/python$python2vers/bin/pip ${dest}/bin/pip
+
+  ${dest}/python$python2vers/bin/pip install virtualenv
+  ln -sf ${dest}/python$python2vers/bin/virtualenv ${dest}/bin/virtualenv
+
+  ${dest}/python$python2vers/bin/pip install fabric
+  ln -sf ${dest}/python$python2vers/bin/fab ${dest}/bin/fab
+
+  exit 42
 }
 
-linking() {
-
-	echo ""
-	echo "------------------------------------------------------------------------"
-	echo "Exporting python2.7.3 path to access binaries in ${dest}/python2.7.3/bin"
-	echo "------------------------------------------------------------------------"
-	echo ""
-
-	echo "export PATH=$\PATH:${dest}/python2.7.3/bin" >> ~/.bash_profile
+python_clean() {
+  if [ -d "$tmpdir" ]; then
+    rm -fr $tmpdir ;
+    exit 0
+  fi
 }
 
-
-prepare
-install
-extra
-cleaning
-linking
-
-echo ""
-echo "Done !"
-echo ""
-echo "Please report any issues on Github, https://github.com/scalp42/python-2.7.x-on-Centos-5.x/issues"
-echo "Any feedback welcomed !"
-echo ""
+python_info
+python_prepare
+python_install
+if [ "$install_extras" == "true" ]; then
+	python_extra
+fi
