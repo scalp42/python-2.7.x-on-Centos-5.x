@@ -1,6 +1,6 @@
 # DESCRIPTION:
 
-Upgrade python (http://www.python.org/) to latest stable version (as of 07/04/12) without breaking yum on CentOS 5.x.
+Upgrade python (http://www.python.org/) to latest stable version (as of 03/16/13) without breaking yum on CentOS 5.x.
 
 It also installs pip, virtualenv and fabric.
 
@@ -14,6 +14,12 @@ This script has only been tested on CentOS 5.6, 5.7 and 5.8. Please do NOT run i
 You must be root or use sudo.
 
 	#> ./install_python27.sh
+	
+You can edit `arch` and `dest` to select destination and architecture:
+
+	arch="i386"
+	dest="/usr/local"
+
 
 # TODO:
 
