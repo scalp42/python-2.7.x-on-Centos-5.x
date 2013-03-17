@@ -17,7 +17,7 @@ You must be root or use sudo.
 
 # TODO:
 
-Allow user to choose directory (/usr/local/ instead of /opt/).  
+~~Allow user to choose directory (/usr/local/ instead of /opt/).~~ DONE thanks to [dldinternet](https://github.com/dldinternet)
 
 Allow which version to upgrade to (including 3.x branch).
 
