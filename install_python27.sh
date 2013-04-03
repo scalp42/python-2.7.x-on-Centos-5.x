@@ -39,7 +39,7 @@ arch=`uname -i`
 tmpdir=`mktemp -d`
 trap 'printf "\n\nLooks like the script exited or got interrupted, cleaning up.\n\n"; python_clean' INT TERM EXIT
 
-sqliteautoconf="sqlite-autoconf-3071502"
+sqliteautoconf="sqlite-autoconf-3071601"
 sqlitesrc="http://www.sqlite.org/$sqliteautoconf.tar.gz"
 
 clear ;
