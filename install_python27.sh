@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Upgrade python to 2.7.3 on CentOS 5.6, 5.7 and 5.8
+# Upgrade python to 2.7.4 on CentOS 5.6, 5.7 and 5.8
 # scalisi.a@gmail.com
 #
 #
@@ -21,7 +21,7 @@ dest="/opt"
 install_extras="true"
 
 ## The following fallback variables are only used if cerebro is disabled and/or unreachable
-fallback_vers="2.7.3"
+fallback_vers="2.7.4"
 fallback_url="http://www.python.org/ftp/python/$fallback_vers/Python-$fallback_vers.tgz"
 fallback_setuptools_vers="0.6c11"
 fallback_setuptools_url="https://pypi.python.org/packages/2.7/s/setuptools/setuptools-fallback_setuptools_vers-py2.7.egg#md5=fe1f997bc722265116870bc7919059ea"
