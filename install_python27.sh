@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # Upgrade python to 2.7.4 on CentOS 5.6, 5.7 and 5.8
-# scalisi.a@gmail.com
+# scalisia@gmail.com
 #
 #
 # Syntax: #> ./install_python27.sh
@@ -39,7 +39,6 @@ arch=`uname -i`
 tmpdir=`mktemp -d`
 trap 'printf "\n\nLooks like the script exited or got interrupted, cleaning up.\n\n"; python_clean' INT TERM EXIT
 
-## Updating version of sqlite-autoconf to eliminate 404
 sqliteautoconf="sqlite-autoconf-3071602"
 sqlitesrc="http://www.sqlite.org/2013/$sqliteautoconf.tar.gz"
 
@@ -112,7 +111,6 @@ python_install() {
   touch /etc/ld.so.conf.d/opt-python$python2vers.conf
   echo "${dest}/python$python2vers/lib" >> /etc/ld.so.conf.d/opt-python$python2vers.conf
   if [ -f /etc/ld.so.conf.d/local-lib.conf ]; then
-    ## Fix library path for local-lib.conf so ldconfig picks up the correct path 04-19-2013
     if grep -qio "${dest}/python$python2vers/lib" /etc/ld.so.conf.d/local-lib.conf; then
       true
     else
@@ -168,5 +166,5 @@ python_info
 python_prepare
 python_install
 if [ "$install_extras" == "true" ]; then
-    python_extra
+  python_extra
 fi
