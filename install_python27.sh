@@ -39,8 +39,9 @@ arch=`uname -i`
 tmpdir=`mktemp -d`
 trap 'printf "\n\nLooks like the script exited or got interrupted, cleaning up.\n\n"; python_clean' INT TERM EXIT
 
-sqliteautoconf="sqlite-autoconf-3071601"
-sqlitesrc="http://www.sqlite.org/$sqliteautoconf.tar.gz"
+## Updating version of sqlite-autoconf to eliminate 404
+sqliteautoconf="sqlite-autoconf-3071602"
+sqlitesrc="http://www.sqlite.org/2013/$sqliteautoconf.tar.gz"
 
 clear ;
 
@@ -111,13 +112,14 @@ python_install() {
   touch /etc/ld.so.conf.d/opt-python$python2vers.conf
   echo "${dest}/python$python2vers/lib" >> /etc/ld.so.conf.d/opt-python$python2vers.conf
   if [ -f /etc/ld.so.conf.d/local-lib.conf ]; then
-    if grep -qio "${dest}/lib" /etc/ld.so.conf.d/local-lib.conf; then
+    ## Fix library path for local-lib.conf so ldconfig picks up the correct path 04-19-2013
+    if grep -qio "${dest}/python$python2vers/lib" /etc/ld.so.conf.d/local-lib.conf; then
       true
     else
-      echo "${dest}/lib" >> /etc/ld.so.conf.d/local-lib.conf
+      echo "${dest}/python$python2vers/lib" >> /etc/ld.so.conf.d/local-lib.conf
     fi
   else
-    echo "${dest}/lib" >> /etc/ld.so.conf.d/local-lib.conf
+    echo "${dest}/python$python2vers/lib" >> /etc/ld.so.conf.d/local-lib.conf
   fi
   /sbin/ldconfig &&
 
@@ -166,5 +168,5 @@ python_info
 python_prepare
 python_install
 if [ "$install_extras" == "true" ]; then
-	python_extra
+    python_extra
 fi
