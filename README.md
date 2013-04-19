@@ -73,3 +73,4 @@ Unless required by applicable law or agreed to in writing, software distributed 
 ## Contributors:
 
 * [dldinternet](https://github.com/dldinternet) for the suggestion about the path choice.
+* [tthayer](https://github.com/tthayer) for fixing a 404 on sqlite-autoconf download and wrong paths on ldconfig libraries
