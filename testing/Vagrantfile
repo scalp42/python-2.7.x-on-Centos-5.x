@@ -5,7 +5,7 @@ Vagrant::Config.run do |config|
     vconfig.vm.host_name = "centos-64"
     vconfig.vm.network :hostonly, "10.10.10.10"
     #vconfig.vm.network :bridged,:bridge => 'en0: Wi-Fi (AirPort)'
-    vconfig.vm.customize ["modifyvm", :id, "--memory", 256, "--cpus", 2, "--ioapic", "on", "--hwvirtex", "on", "--nestedpaging", "on", "--usbehci", "on", "--audio", "none"]
+    vconfig.vm.customize ["modifyvm", :id, "--memory", 512, "--cpus", 2, "--ioapic", "on", "--hwvirtex", "on", "--nestedpaging", "on", "--usbehci", "on", "--audio", "none"]
     vconfig.vm.forward_port(22, 2210, :auto => true)
     #vconfig.vbguest.auto_update = true
 end

@@ -144,13 +144,13 @@ python_extra() {
   sh $tmpdir/setuptools-$setuptoolsvers-py2.7.egg --prefix=${dest}/python$python2vers
 
   ${dest}/python$python2vers/bin/easy_install pip
-  ln -sf ${dest}/python$python2vers/bin/pip ${dest}/bin/pip
+  #ln -s ${dest}/python$python2vers/bin/pip ${dest}/bin/pip
 
   ${dest}/python$python2vers/bin/pip install virtualenv
-  ln -sf ${dest}/python$python2vers/bin/virtualenv ${dest}/bin/virtualenv
+  #ln -s ${dest}/python$python2vers/bin/virtualenv ${dest}/bin/virtualenv
 
   ${dest}/python$python2vers/bin/pip install fabric
-  ln -sf ${dest}/python$python2vers/bin/fab ${dest}/bin/fab
+  #ln -s ${dest}/python$python2vers/bin/fab ${dest}/bin/fab
 
   exit 42
 }
