@@ -76,7 +76,7 @@ python_prepare() {
   yum -q check-update ;
   $yum gcc.${arch} gdbm-devel.${arch} readline-devel.${arch} ncurses-devel.${arch} zlib-devel.${arch} bzip2-devel.${arch}
   $yum sqlite-devel.${arch} db4-devel.${arch} openssl-devel.${arch} tk-devel.${arch} bluez-libs-devel.${arch} make.${arch} python-devel.${arch}
-  $yum wget unzip crypto-utils.${arch} m2crypto.${arch}
+  $yum wget curl unzip crypto-utils.${arch} m2crypto.${arch}
   yum -y -q groupinstall 'Development Tools'
   #mkdir $tmpdir
 }
@@ -162,8 +162,8 @@ python_clean() {
   fi
 }
 
-python_info
 python_prepare
+python_info
 python_install
 if [ "$install_extras" == "true" ]; then
   python_extra

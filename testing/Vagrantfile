@@ -1,23 +1,34 @@
 Vagrant::Config.run do |config|
-  config.vm.define "64", :primary => true do |vconfig|
-    vconfig.vm.box = "centos-5.7-x86_64"
-    vconfig.vm.box_url = "http://www.lyricalsoftware.com/downloads/centos-5.7-x86_64.box"
+  config.vm.define "5-8_64", :primary => true do |vconfig|
+    vconfig.vm.box = "centos-5.8-64"
+    vconfig.vm.box_url = "http://tag1consulting.com/files/centos-5.8-x86-64-minimal.box"
     vconfig.vm.host_name = "centos-64"
     vconfig.vm.network :hostonly, "10.10.10.10"
     #vconfig.vm.network :bridged,:bridge => 'en0: Wi-Fi (AirPort)'
-    vconfig.vm.customize ["modifyvm", :id, "--memory", 512, "--cpus", 2, "--ioapic", "on", "--hwvirtex", "on", "--nestedpaging", "on", "--usbehci", "on", "--audio", "none"]
+    vconfig.vm.customize ["modifyvm", :id, "--memory", 256, "--cpus", 2, "--ioapic", "on", "--hwvirtex", "on", "--nestedpaging", "on", "--usbehci", "on", "--audio", "none"]
     vconfig.vm.forward_port(22, 2210, :auto => true)
     #vconfig.vbguest.auto_update = true
 end
 
-  config.vm.define "32", :primary => true do |vconfig|
-    vconfig.vm.box = "centos-5.6-32"
-    vconfig.vm.box_url = "http://yum.mnxsolutions.com/vagrant/centos_56_32.box"
-    vconfig.vm.host_name = "centos-32"
+  config.vm.define "5-7_64", :primary => true do |vconfig|
+    vconfig.vm.box = "centos-5.7-64"
+    vconfig.vm.box_url = "http://www.lyricalsoftware.com/downloads/centos-5.7-x86_64.box"
+    vconfig.vm.host_name = "centos-64"
     vconfig.vm.network :hostonly, "10.10.10.11"
     #vconfig.vm.network :bridged,:bridge => 'en0: Wi-Fi (AirPort)'
     vconfig.vm.customize ["modifyvm", :id, "--memory", 512, "--cpus", 2, "--ioapic", "on", "--hwvirtex", "on", "--nestedpaging", "on", "--usbehci", "on", "--audio", "none"]
     vconfig.vm.forward_port(22, 2211, :auto => true)
+    #vconfig.vbguest.auto_update = true
+end
+
+  config.vm.define "5-6_32", :primary => true do |vconfig|
+    vconfig.vm.box = "centos-5.6-32"
+    vconfig.vm.box_url = "http://yum.mnxsolutions.com/vagrant/centos_56_32.box"
+    vconfig.vm.host_name = "centos-32"
+    vconfig.vm.network :hostonly, "10.10.10.12"
+    #vconfig.vm.network :bridged,:bridge => 'en0: Wi-Fi (AirPort)'
+    vconfig.vm.customize ["modifyvm", :id, "--memory", 512, "--cpus", 2, "--ioapic", "on", "--hwvirtex", "on", "--nestedpaging", "on", "--usbehci", "on", "--audio", "none"]
+    vconfig.vm.forward_port(22, 2212, :auto => true)
 #    vconfig.vbguest.auto_update = true
   end
 end
