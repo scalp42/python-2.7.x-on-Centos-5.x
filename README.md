@@ -20,7 +20,7 @@ It's [idempotent](http://en.wikipedia.org/wiki/Idempotence#Computer_science_mean
 
 ## Requirements
 
-This script has **only** been tested on CentOS 5.6, 5.7 and 5.8. 
+This script has **only** been tested on CentOS 5.5, 5.6, 5.7 and 5.8. 
 
 **Please do NOT run it on CentOS 6.x (it should not be needed)**.
 
