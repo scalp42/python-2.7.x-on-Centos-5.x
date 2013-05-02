@@ -14,7 +14,7 @@ This script was tested on:
 * CentOS 5.7 (x86_64)
 * CentOS 5.8 (x86_64)
 
-It's [idempotent](http://en.wikipedia.org/wiki/Idempotence#Computer_science_meaning) and cleanup after itself on exit **or** interrupt (^X^C).
+It's [idempotent](http://en.wikipedia.org/wiki/Idempotence#Computer_science_meaning) and cleans up after itself on exit **or** interrupt (^X^C).
 
 
 
