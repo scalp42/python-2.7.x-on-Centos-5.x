@@ -13,7 +13,7 @@ This script was tested on:
 * CentOS 5.6 (i686)
 * CentOS 5.7 (x86_64)
 
-It's [idempotent](http://en.wikipedia.org/wiki/Idempotence#Computer_science_meaning) and cleanup after itself on exit or interrupt (^X^C).
+It's [idempotent](http://en.wikipedia.org/wiki/Idempotence#Computer_science_meaning) and cleanup after itself on exit **or** interrupt (^X^C).
 
 
 
@@ -36,6 +36,10 @@ You can edit `dest` in `install_python27.sh` to select destination path for pyth
 If you **do not** wish to install python extras (pip, virtualenv and fabric), please set:
 	
 	install_extras="false"
+	
+Please make sure to add the path your environment, depending on your `dest` and python version, for example:
+
+	export PATH=$PATH:/opt/python2.7.4/bin
 
 
 ## Todo
