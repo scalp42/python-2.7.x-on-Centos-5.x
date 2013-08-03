@@ -101,7 +101,7 @@ python_install() {
   $wget $python2url &&
   tar xzf Python-$python2vers.tgz &&
   cd Python-$python2vers &&
-  ./configure --prefix=${dest}/python$python2vers --with-threads --enable-shared
+  ./configure --prefix=${dest}/python$python2vers --with-threads --enable-shared --enable-unicode=ucs4
   make
   make install
 
