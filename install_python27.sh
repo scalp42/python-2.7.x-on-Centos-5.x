@@ -9,15 +9,15 @@
 
 # int main()
 
-## This variable enable the use of www.askcerebro.com
+## This variable enables the use of www.askcerebro.com
 ## Please visit for more information: https://github.com/scalp42/askcerebro
 ## Set it to "false" to deactivate.
 usecerebro="true"
 
-## This variable specify the path for the new binaries
+## This variable specifies the path for the new binaries
 dest="/opt"
 
-## This variable specify if extras need to be installed
+## This variable specifies if extras need to be installed
 install_extras="true"
 
 ## The following fallback variables are only used if cerebro is disabled and/or unreachable
