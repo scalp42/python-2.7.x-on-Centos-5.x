@@ -80,3 +80,4 @@ Unless required by applicable law or agreed to in writing, software distributed 
 * [dldinternet](https://github.com/dldinternet) for the suggestion about the path choice.
 * [tthayer](https://github.com/tthayer) for fixing a 404 on sqlite-autoconf download and wrong paths on ldconfig libraries
 * [Blaisorblade](https://github.com/Blaisorblade) for reporting a misleading error regarding Fabric and Virtualenv symlinks
+* [phuslu](https://github.com/phuslu) for reporting the configure args not in line with recent distributions.
