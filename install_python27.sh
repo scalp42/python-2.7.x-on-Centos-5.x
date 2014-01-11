@@ -24,7 +24,7 @@ install_extras="true"
 fallback_vers="2.7.6"
 fallback_url="http://www.python.org/ftp/python/$fallback_vers/Python-$fallback_vers.tgz"
 fallback_setuptools_vers="0.6c11"
-fallback_setuptools_url="https://pypi.python.org/packages/2.7/s/setuptools/setuptools-fallback_setuptools_vers-py2.7.egg#md5=fe1f997bc722265116870bc7919059ea"
+fallback_setuptools_url="https://pypi.python.org/packages/2.7/s/setuptools/setuptools-$fallback_setuptools_vers-py2.7.egg#md5=fe1f997bc722265116870bc7919059ea"
 
 
 if [ "$(id -u)" != "0" ]; then
