@@ -36,7 +36,7 @@ fi
 yum="yum -y -q install"
 wget="wget --no-check-certificate"
 arch=`uname -i`
-tmpdir=`mktemp -d`
+tmpdir=`/tmp/mktemp -d`
 trap 'printf "\n\nLooks like the script exited or got interrupted, cleaning up.\n\n"; python_clean' INT TERM EXIT
 
 sqliteautoconf="sqlite-autoconf-3071602"
@@ -78,7 +78,7 @@ python_prepare() {
   $yum sqlite-devel.${arch} db4-devel.${arch} openssl-devel.${arch} tk-devel.${arch} bluez-libs-devel.${arch} make.${arch} python-devel.${arch}
   $yum wget curl unzip crypto-utils.${arch} m2crypto.${arch}
   yum -y -q groupinstall 'Development Tools'
-  #mkdir $tmpdir
+  #mkdir -p $tmpdir
 }
 
 python_install() {
