@@ -9,10 +9,10 @@
 
 # int main()
 
-## This variable enables the use of www.askcerebro.com
-## Please visit for more information: https://github.com/scalp42/askcerebro
+## This variable enables the use of script.io python endpoint.
+## Please visit script.io/disks/python for more information.
 ## Set it to "false" to deactivate.
-usecerebro="true"
+usescriptio="true"
 
 ## This variable specifies the path for the new binaries
 dest="/opt"
@@ -20,7 +20,7 @@ dest="/opt"
 ## This variable specifies if extras need to be installed
 install_extras="true"
 
-## The following fallback variables are only used if cerebro is disabled and/or unreachable
+## The following fallback variables are only used if script.io is disabled and/or unreachable
 fallback_vers="2.7.6"
 fallback_url="http://www.python.org/ftp/python/$fallback_vers/Python-$fallback_vers.tgz"
 fallback_setuptools_vers="0.6c11"
@@ -45,13 +45,13 @@ sqlitesrc="http://www.sqlite.org/2013/$sqliteautoconf.tar.gz"
 clear ;
 
 python_info() {
-  if [ "$usecerebro" == "true" ]; then
-    STATUS_CEREBRO=`curl -m 5 --output /dev/null --silent --head --write-out '%{http_code}\n' www.askcerebro.com/python/python2/version`
-    if [ "$STATUS_CEREBRO" == "200" ]; then
-      python2vers=`curl -m 5 --silent www.askcerebro.com/python/python2/version`
-      python2url=`curl -m 5 --silent www.askcerebro.com/python/python2/url`
-      setuptoolsvers=`curl -m 5 --silent www.askcerebro.com/setuptools/2.7/version`
-      setuptoolsurl=`curl -m 5 --silent www.askcerebro.com/setuptools/2.7/url`
+  if [ "$usescriptio" == "true" ]; then
+    STATUS_SCRIPTIO=`curl -L -m 5 --output /dev/null --silent --head --write-out '%{http_code}\n' script.io/disks/python/python2/version`
+    if [ "$STATUS_SCRIPTIO" == "200" ]; then
+      python2vers=`curl -L -m 5 --silent script.io/disks/python/python2/version`
+      python2url=`curl -L -m 5 --silent script.io/disks/python/python2/url`
+      setuptoolsvers=`curl -L -m 5 --silent script.io/disks/setuptools/2.7/version`
+      setuptoolsurl=`curl -L -m 5 --silent script.io/disks/setuptools/2.7/url`
     else
       python2vers=$fallback_vers
       python2url=$fallback_url
