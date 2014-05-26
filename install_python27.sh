@@ -9,7 +9,7 @@
 
 # int main()
 
-## This variable enables the use of script.io python endpoint.
+## This variable enables the use of script.io disks endpoint.
 ## Please visit script.io/disks/python for more information.
 ## Set it to "false" to deactivate.
 usescriptio="true"
