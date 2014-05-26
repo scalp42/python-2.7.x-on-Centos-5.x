@@ -6,6 +6,7 @@
 #
 # Syntax: #> ./install_python27.sh
 #
+set -e
 
 # int main()
 
@@ -37,7 +38,7 @@ yum="yum -y -q install"
 wget="wget --no-check-certificate"
 arch=`uname -i`
 tmpdir=`mktemp -d`
-trap 'printf "\n\nLooks like the script exited or got interrupted, cleaning up.\n\n"; python_clean' INT TERM EXIT
+trap 'printf "\n\nLooks like the script exited or got interrupted, cleaning up.\n\n"; python_clean' INT TERM EXIT ERR
 
 sqliteautoconf="sqlite-autoconf-3071602"
 sqlitesrc="http://www.sqlite.org/2013/$sqliteautoconf.tar.gz"
