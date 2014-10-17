@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Upgrade python to 2.7.4 on CentOS 5.6, 5.7 and 5.8
+# Upgrade python to 2.7.8 on CentOS 5.6, 5.7 and 5.8
 # scalisia@gmail.com
 #
 #
@@ -21,7 +21,7 @@ dest="/opt"
 install_extras="true"
 
 ## The following fallback variables are only used if script.io is disabled and/or unreachable
-fallback_vers="2.7.6"
+fallback_vers="2.7.8"
 fallback_url="http://www.python.org/ftp/python/$fallback_vers/Python-$fallback_vers.tgz"
 fallback_setuptools_vers="0.6c11"
 fallback_setuptools_url="https://pypi.python.org/packages/2.7/s/setuptools/setuptools-$fallback_setuptools_vers-py2.7.egg#md5=fe1f997bc722265116870bc7919059ea"
@@ -48,10 +48,10 @@ python_info() {
   if [ "$usescriptio" == "true" ]; then
     STATUS_SCRIPTIO=`curl -L -m 5 --output /dev/null --silent --head --write-out '%{http_code}\n' script.io/disks/python/python2/version`
     if [ "$STATUS_SCRIPTIO" == "200" ]; then
-      python2vers=`curl -L -m 5 --silent script.io/disks/python/python2/version`
-      python2url=`curl -L -m 5 --silent script.io/disks/python/python2/url`
-      setuptoolsvers=`curl -L -m 5 --silent script.io/disks/setuptools/2.7/version`
-      setuptoolsurl=`curl -L -m 5 --silent script.io/disks/setuptools/2.7/url`
+      python2vers=$(curl -L -m 5 --silent script.io/disks/python/python2/version | tr -d '"')
+      python2url=$(curl -L -m 5 --silent script.io/disks/python/python2/url | tr -d '"')
+      setuptoolsvers=$(curl -L -m 5 --silent script.io/disks/setuptools/2.7/version | tr -d '"')
+      setuptoolsurl=$(curl -L -m 5 --silent script.io/disks/setuptools/2.7/url | tr -d '"')
     else
       python2vers=$fallback_vers
       python2url=$fallback_url
@@ -78,7 +78,6 @@ python_prepare() {
   $yum sqlite-devel.${arch} db4-devel.${arch} openssl-devel.${arch} tk-devel.${arch} bluez-libs-devel.${arch} make.${arch} python-devel.${arch}
   $yum wget curl unzip crypto-utils.${arch} m2crypto.${arch}
   yum -y -q groupinstall 'Development Tools'
-  #mkdir $tmpdir
 }
 
 python_install() {
