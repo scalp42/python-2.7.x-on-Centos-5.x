@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Upgrade python to 2.7.8 on CentOS 5.6, 5.7 and 5.8
+# Upgrade python to 2.7.10 on CentOS 5.6, 5.7 and 5.8
 # scalisia@gmail.com
 #
 #
@@ -21,10 +21,8 @@ dest="/opt"
 install_extras="true"
 
 ## The following fallback variables are only used if script.io is disabled and/or unreachable
-fallback_vers="2.7.8"
+fallback_vers="2.7.10"
 fallback_url="http://www.python.org/ftp/python/$fallback_vers/Python-$fallback_vers.tgz"
-fallback_setuptools_vers="0.6c11"
-fallback_setuptools_url="https://pypi.python.org/packages/2.7/s/setuptools/setuptools-$fallback_setuptools_vers-py2.7.egg#md5=fe1f997bc722265116870bc7919059ea"
 
 
 if [ "$(id -u)" != "0" ]; then
@@ -60,26 +58,11 @@ python_info() {
       python2vers=$( echo $RESP | json_val version )
       python2url=$( echo $RESP | json_val url )
     fi
-
-    OUT=$( curl -L -m 5 -qSfsw '\n%{http_code}' script.io/disks/setuptools/2.7 2>/dev/null )
-    RET=$?
-    STAT=$( echo "$OUT" | tail -n1 )
-    RESP=$( echo "$OUT" | head -n-1 )
-
-    if [[ ($RET -eq 0) && ("$STAT" == "200") ]]; then
-      setuptoolsvers=$( echo $RESP | json_val version )
-      setuptoolsurl=$( echo $RESP | json_val url )
-    fi
   fi
 
   if [[ -z "$python2vers" || -z "$python2url" ]]; then
     python2vers=$fallback_vers
     python2url=$fallback_url
-  fi
-
-  if [[ -z "$setuptoolsvers" || -z "$setuptoolsurl" ]]; then
-    setuptoolsvers=$fallback_setuptools_vers
-    setuptoolsurl=$fallback_setuptools_url
   fi
 }
 
@@ -117,7 +100,7 @@ python_install() {
   $wget $python2url &&
   tar xzf Python-$python2vers.tgz &&
   cd Python-$python2vers &&
-  ./configure --prefix=${dest}/python$python2vers --with-threads --enable-shared --enable-unicode=ucs4
+  ./configure --prefix=${dest}/python$python2vers --with-threads --enable-shared --enable-unicode=ucs4 --with-ensurepip=install
   make
   make install
 
@@ -145,22 +128,11 @@ python_extra() {
 
   echo ""
   echo "---------------------------------------------------------------"
-  echo "Installing Pip, Fabric and Virtualenv"
+  echo "Installing Fabric and Virtualenv"
   echo "---------------------------------------------------------------"
   echo ""
 
   export PATH=$PATH:/usr/bin:${dest}/python$python2vers/bin
-
-  cd $tmpdir &&
-  $wget $setuptoolsurl &&
-  cd ${dest}/python$python2vers/lib/python2.7/config &&
-  ln -s ../../libpython2.7.so .
-  ln -sf ${dest}/python$python2vers/lib/libpython2.7.so /usr/lib/libpython2.7.so ;
-  /sbin/ldconfig &&
-  sh $tmpdir/setuptools-$setuptoolsvers-py2.7.egg --prefix=${dest}/python$python2vers
-
-  ${dest}/python$python2vers/bin/easy_install pip
-  #ln -s ${dest}/python$python2vers/bin/pip ${dest}/bin/pip
 
   ${dest}/python$python2vers/bin/pip install virtualenv
   #ln -s ${dest}/python$python2vers/bin/virtualenv ${dest}/bin/virtualenv
@@ -184,3 +156,4 @@ python_install
 if [ "$install_extras" == "true" ]; then
   python_extra
 fi
+
