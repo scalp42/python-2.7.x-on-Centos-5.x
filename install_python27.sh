@@ -44,23 +44,40 @@ sqlitesrc="http://www.sqlite.org/2013/$sqliteautoconf.tar.gz"
 
 clear ;
 
+json_val() {
+  KEY=$1
+  awk -F"[\"]" '{for(i=1;i<=NF;i++){ if($i~/'$KEY'/){ print $(i+2) }}}'
+}
+
 python_info() {
   if [ "$usescriptio" == "true" ]; then
-    STATUS_SCRIPTIO=`curl -L -m 5 --output /dev/null --silent --head --write-out '%{http_code}\n' script.io/disks/python/python2/version`
-    if [ "$STATUS_SCRIPTIO" == "200" ]; then
-      python2vers=$(sleep 0.5; curl -L -m 5 --silent script.io/disks/python/python2/version | tr -d '"')
-      python2url=$(sleep 0.5; curl -L -m 5 --silent script.io/disks/python/python2/url | tr -d '"')
-      setuptoolsvers=$(sleep 0.5; curl -L -m 5 --silent script.io/disks/setuptools/2.7/version | tr -d '"')
-      setuptoolsurl=$(sleep 0.5; curl -L -m 5 --silent script.io/disks/setuptools/2.7/url | tr -d '"')
-    else
-      python2vers=$fallback_vers
-      python2url=$fallback_url
-      setuptoolsvers=$fallback_setuptools_vers
-      setuptoolsurl=$fallback_setuptools_url
+    OUT=$( curl -L -m 5 -qSfsw '\n%{http_code}' script.io/disks/python/python2 2>/dev/null )
+    RET=$?
+    STAT=$( echo "$OUT" | tail -n1 )
+    RESP=$( echo "$OUT" | head -n-1 )
+
+    if [[ ($RET -eq 0) && ("$STAT" == "200") ]]; then
+      python2vers=$( echo $RESP | json_val version )
+      python2url=$( echo $RESP | json_val url )
     fi
-  else
+
+    OUT=$( curl -L -m 5 -qSfsw '\n%{http_code}' script.io/disks/setuptools/2.7 2>/dev/null )
+    RET=$?
+    STAT=$( echo "$OUT" | tail -n1 )
+    RESP=$( echo "$OUT" | head -n-1 )
+
+    if [[ ($RET -eq 0) && ("$STAT" == "200") ]]; then
+      setuptoolsvers=$( echo $RESP | json_val version )
+      setuptoolsurl=$( echo $RESP | json_val url )
+    fi
+  fi
+
+  if [[ -z "$python2vers" || -z "$python2url" ]]; then
     python2vers=$fallback_vers
     python2url=$fallback_url
+  fi
+
+  if [[ -z "$setuptoolsvers" || -z "$setuptoolsurl" ]]; then
     setuptoolsvers=$fallback_setuptools_vers
     setuptoolsurl=$fallback_setuptools_url
   fi
