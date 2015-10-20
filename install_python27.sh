@@ -130,7 +130,7 @@ python_install() {
     if grep -qio "${dest}/python$python2vers/lib" /etc/ld.so.conf.d/local-lib.conf; then
       true
     else
-      echo "${dest}/python$python2vers/lib" >> /etc/ld.so.conf.d/local-lib.conf
+      sed -i "1i ${dest}/python$python2vers/lib" /etc/ld.so.conf.d/local-lib.conf
     fi
   else
     echo "${dest}/python$python2vers/lib" >> /etc/ld.so.conf.d/local-lib.conf
