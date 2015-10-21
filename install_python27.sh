@@ -43,21 +43,31 @@ sqlitesrc="http://www.sqlite.org/2013/$sqliteautoconf.tar.gz"
 clear ;
 
 json_val() {
-  KEY=$1
-  awk -F"[\"]" '{for(i=1;i<=NF;i++){ if($i~/'$KEY'/){ print $(i+2) }}}'
+  key=$1
+  awk -F"[\"]" '{for(i=1;i<=NF;i++){ if($i~/'$key'/){ print $(i+2) }}}'
 }
 
 python_info() {
-  if [ "$usescriptio" == "true" ]; then
-    OUT=$( curl -L -m 5 -qSfsw '\n%{http_code}' script.io/disks/python/python2 2>/dev/null )
-    RET=$?
-    STAT=$( echo "$OUT" | tail -n1 )
-    RESP=$( echo "$OUT" | head -n-1 )
+  if [[ "$usescriptio" == "true" ]]; then
+    for i in {1..3}
+    do
+      out=$( curl -L -m 5 -qSfsw '\n%{http_code}' script.io/disks/python/python2 2>/dev/null )
+      ret=$?
+      stat=$( echo "$out" | tail -n1 )
+      resp=$( echo "$out" | head -n-1 )
 
-    if [[ ($RET -eq 0) && ("$STAT" == "200") ]]; then
-      python2vers=$( echo $RESP | json_val version )
-      python2url=$( echo $RESP | json_val url )
-    fi
+      if [[ ($ret -eq 0) && ("$stat" == "200") ]]; then
+        python2vers=$( echo $resp | json_val version )
+        python2url=$( echo $resp | json_val url )
+        break
+      fi
+
+      if [[ ($ret -ne 0) || ("$stat" != "429") ]]; then
+        break
+      fi
+
+      sleep 1
+    done
   fi
 
   if [[ -z "$python2vers" || -z "$python2url" ]]; then
